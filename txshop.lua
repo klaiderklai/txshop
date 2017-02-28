@@ -305,7 +305,7 @@ do
         local len = 0
 
         for i, child in ipairs(children) do
-          local z = child.z or #order
+          local z = tonumber(child.z) or (#order + 1)
           z = (z > len) and 1 or z
           insert(order, z, child)
           len = len + 1
