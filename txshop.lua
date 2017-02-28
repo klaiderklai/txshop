@@ -131,7 +131,7 @@ do
 
       if obj._removed then
         removeImage(obj._id)
-        return true
+        return obj
       end
       obj._id = addImage(obj.id, '&'..curImgLayer, obj.x, obj.y, target)
 
@@ -325,7 +325,7 @@ do
 
   local function updateHTML(textArea)
     if not isInstanceOf(TextArea, textArea) then
-      return false
+      return textArea
     end
 
     local curTargetInit = not curTarget
@@ -341,7 +341,7 @@ do
       end
     end
 
-    return true
+    return textArea
   end
 
   local function remove(obj)
