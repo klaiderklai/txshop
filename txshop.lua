@@ -302,13 +302,13 @@ do
         curTarget = target
 
         local order = {}
-        local len = 1
+        local len = 0
 
         for i, child in ipairs(children) do
+          len = len + 1
           local z = tonumber(child.z) or len
           z = (z > len) and len or z
           insert(order, z, child)
-          len = len + 1
         end
 
         for i, child in ipairs(order) do
