@@ -418,6 +418,30 @@ do
     end
   end
 
+  local function removeChild(obj, ...)
+    local children = obj.children
+
+    if children then
+
+      for _, target in ipairs { ... } do
+        for i, child in ipairs(children) do
+          if child == target then
+            _remove(target, i)
+            break
+          else
+            removeChild(child, target)
+          end
+        end
+      end
+
+      if #children == 0 then
+        obj.children = nil
+      end
+    end
+
+    return obj
+  end
+  
   setPrototypeOf(TextArea, {
 
       addChild = function(self, ...)
@@ -435,27 +459,7 @@ do
     , clone = clone
     , findCloneOf = findCloneOf
     , remove = remove
-
-    , removeChild = function(self, ...)
-        local children = self.children
-
-        if children then
-
-          for _, target in ipairs { ... } do
-            local i = find(target, children)
-            if i then
-              _remove(target, i)
-            end
-          end
-
-          if #children == 0 then
-            self.children = nil
-          end
-        end
-
-        return self
-      end
-
+    , removeChild = removeChild
     , top = top
     , update = update
     , updateHTML = updateHTML
