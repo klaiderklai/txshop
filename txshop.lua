@@ -74,6 +74,7 @@ do
   local update
 
   local curImgLayer
+  local curParent
   local curTarget
 
   local txaCounter = 0
@@ -116,7 +117,7 @@ do
     end
   end
 
-  function update(obj, fixed, alpha, removed)
+  function update(obj)
     if obj.display == false and not obj._removed then
       return obj
     end
@@ -144,7 +145,11 @@ do
 
     elseif isInstanceOf(TextArea, obj) then
 
-      removed = obj._removed or removed
+      local curParentInit = not curParent
+
+      curParent = obj
+
+      local removed = obj._removed or curParent.removed
 
       if removed then
 
@@ -170,18 +175,16 @@ do
         w = (w < 10) and 10 or w
         h = (h < 10) and 10 or h
 
-        local _alpha = obj.alpha
-        local _fixed = obj.fixed
+        local alpha = obj.alpha
+        local fixed = obj.fixed
 
         -- Children text areas can inherit parent's alpha and fixed
         -- properties.
 
         if obj.inherit ~= false then
-          _alpha = _alpha or alpha
-          _fixed = _fixed or fixed
+          alpha = alpha or curParent.alpha
+          fixed = fixed or curParent.fixed
         end
-
-        alpha, fixed = _alpha, _fixed
 
         -- (default) fixed = true
 
@@ -262,7 +265,7 @@ do
               end
 
               addTextArea(txaCounter, '', target, bx, by, bw, bh,
-                color, color, alpha, fixed)
+                background, color, alpha, fixed)
 
               ids[txaCounter] = true
               txaCounter = txaCounter + 1
@@ -318,6 +321,10 @@ do
         if targetInit then
           curTarget = nil
         end
+      end
+
+      if curParentInit then
+        curParent = nil
       end
     end
     return obj
