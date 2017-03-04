@@ -117,6 +117,10 @@ do
     end
   end
 
+  local function borderTextArea(x, y, w, h, background, color, alpha, fixed, config)
+    addTextArea(id, obj.html or '', target, x, y, w, h, background, border, alpha, fixed)
+  end
+
   function update(obj)
     if obj.display == false and not obj._removed then
       return obj
@@ -265,7 +269,7 @@ do
               end
 
               addTextArea(txaCounter, '', target, bx, by, bw, bh,
-                background, color, alpha, fixed)
+                color, color, alpha, fixed)
 
               ids[txaCounter] = true
               txaCounter = txaCounter + 1
