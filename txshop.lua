@@ -196,7 +196,7 @@ do
         x = x - (w / 2)
         y = y - (h / 2)
 
-        -- Handle multi-borders
+        -- Configured-border
 
         if type(border) == 'table' then
 
@@ -295,8 +295,6 @@ do
 
         addTextArea(id, obj.html or '', target, x, y, w, h, background, border, alpha, fixed)
       end
-
-      -- Update children now
 
       local children = obj.children
 
