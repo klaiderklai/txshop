@@ -77,6 +77,10 @@ do
   local curParent
   local curTarget
 
+  local parentAlpha
+  local parentFixed
+  local parentRemoved
+
   local txaCounter = 0
 
   function build(obj, target)
@@ -151,7 +155,7 @@ do
 
       local curParentInit = not curParent
 
-      local removed = obj._removed or (curParent and curParent.removed)
+      local removed = obj._removed or parentRemoved
 
       if removed then
 
@@ -184,8 +188,8 @@ do
         -- properties.
 
         if (curParent) and obj.inherit ~= false then
-          alpha = alpha or curParent.alpha
-          fixed = fixed or curParent.fixed
+          alpha = alpha or parentAlpha
+          fixed = fixed or parentFixed
         end
 
         -- (default) fixed = true
@@ -299,7 +303,11 @@ do
       end
 
       curParent = obj
-      
+
+      parentAlpha = alpha
+      parentFixed = fixed
+      parentRemoved = removed
+
       local children = obj.children
 
       if type(children) == 'table' then
@@ -327,6 +335,9 @@ do
 
       if curParentInit then
         curParent = nil
+        parentAlpha = nil
+        parentFixed = nil
+        parentRemoved = nil
       end
     end
     return obj
