@@ -151,8 +151,6 @@ do
 
       local curParentInit = not curParent
 
-      curParent = obj
-
       local removed = obj._removed or curParent.removed
 
       if removed then
@@ -185,7 +183,7 @@ do
         -- Children text areas can inherit parent's alpha and fixed
         -- properties.
 
-        if obj.inherit ~= false then
+        if curParent and obj.inherit ~= false then
           alpha = alpha or curParent.alpha
           fixed = fixed or curParent.fixed
         end
@@ -300,6 +298,8 @@ do
         addTextArea(id, obj.html or '', target, x, y, w, h, background, border, alpha, fixed)
       end
 
+      curParent = obj
+      
       local children = obj.children
 
       if type(children) == 'table' then
