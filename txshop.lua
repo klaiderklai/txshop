@@ -151,7 +151,7 @@ do
 
       local curParentInit = not curParent
 
-      local removed = obj._removed or curParent.removed
+      local removed = obj._removed or (curParent and curParent.removed)
 
       if removed then
 
@@ -183,7 +183,7 @@ do
         -- Children text areas can inherit parent's alpha and fixed
         -- properties.
 
-        if curParent and obj.inherit ~= false then
+        if (curParent) and obj.inherit ~= false then
           alpha = alpha or curParent.alpha
           fixed = fixed or curParent.fixed
         end
